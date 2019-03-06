@@ -1,3 +1,13 @@
+/* 
+ * BlinkStickGo - A libusb-based go package for controlling the BlinkStick line of products.
+ * 
+ *   This Source Code Form is subject to the terms of the Mozilla Public
+ *   License, v. 2.0. If a copy of the MPL was not distributed with this
+ *   file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ *
+ * blinkstick.go
+ */
+
 // Package blinkstickgo provides functions to interact with the BlinkStick line of products.
 package blinkstickgo
 
