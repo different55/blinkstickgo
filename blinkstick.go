@@ -49,7 +49,7 @@ func FindAll() ([]BlinkStick, error) {
 			fmt.Fprintln(os.Stderr, "Could not grab Serial for BlinkStick device", err)
 		}
 		blinksticks = append(blinksticks, BlinkStick{
-			device: device,
+			Device: device,
 			Inverse: false, // TODO: The device knows this, right? We should query for it.
 			Serial: serial,
 		})
@@ -59,7 +59,7 @@ func FindAll() ([]BlinkStick, error) {
 
 // The BlinkStick struct represents an individual BlinkStick device.
 type BlinkStick struct {
-	device   *gousb.Device
+	Device   *gousb.Device
 	Serial   string
 	Inverse  bool
 	RGB      bool // Currently unimplemented, will be true if the strip uses RGB format instead of the default GRB.
@@ -71,7 +71,7 @@ func (stk *BlinkStick) GetLEDCount() int {
 	if stk.ledCount == 0 {
 		buffer := make([]byte, 2)
 
-		responseLen, err := stk.device.Control(0x80|0x20, 0x01, 0x81, 0x00, buffer)
+		responseLen, err := stk.Device.Control(0x80|0x20, 0x01, 0x81, 0x00, buffer)
 		if err != nil || responseLen < 2 {
 			return -1
 		}
@@ -179,7 +179,7 @@ func (stk *BlinkStick) SetLEDData(channel byte, data []byte) error {
 
 // A razor thin wrapper around gousb.Device.Control().
 func (stk *BlinkStick) control(requestType, request uint8, val, idx uint16, data []byte) error {
-	_, err := stk.device.Control(requestType, request, val, idx, data)
+	_, err := stk.Device.Control(requestType, request, val, idx, data)
 	return err
 }
 
