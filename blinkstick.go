@@ -133,7 +133,7 @@ func (stk *BlinkStick) SetRGB(channel, index, r, g, b byte) error {
 	if index == 0 && channel == 0 {
 		return stk.control(0x20, 0x09, 0x01, 0x00, []byte{0, r, g, b})
 	}
-	return stk.control(0x20, 0x09, 0x01, 0x00, []byte{0, r, g, b})
+	return stk.control(0x20, 0x09, 0x05, 0x00, []byte{5, channel, index, r, g, b})
 }
 
 // SetRandom sets one LED to a random color.
