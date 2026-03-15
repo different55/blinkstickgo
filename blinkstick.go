@@ -152,6 +152,22 @@ func (stk *BlinkStick) SetAllRGB(channel, r, g, b byte) error {
 	return stk.SetLEDData(channel, data)
 }
 
+// SetMode sets the BlinkStick to a specific mode.
+//
+// The possible modes are:  0 = analog RGB, 1 = inverse,
+// 2 = addressable multi LED, 3 = addressable mirrored multi LED.
+// After changing the mode, wait for ~10 ms with further queries.
+func (stk *BlinkStick) SetMode(mode byte) error {
+	return stk.control(0x20, 0x9, 0x4, 0, []byte{4, mode})
+}
+
+// GetMode fetches the mode of the BlinkStick.
+func (stk *BlinkStick) GetMode() (byte, error) {
+	buffer := make([]byte, 2)
+	err := stk.control(0x80|0x20, 0x1, 0x4, 0, buffer)
+	return buffer[1], err
+}
+
 // GetLEDData retrieves the LED data from the device.
 func (stk *BlinkStick) GetLEDData(count int) ([]byte, error) {
 	reportID, maxLEDs := stk.getReportID(count*3)
